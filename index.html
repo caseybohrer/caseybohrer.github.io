@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casey Bohrer</title>
+  <meta name="description" content="casey bohrer">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0e0e0d;
+      --text: #f2efe9;
+      --muted: rgba(242, 239, 233, 0.6);
+      --line: rgba(242, 239, 233, 0.18);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.01em;
+      text-transform: lowercase;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ---------- header ---------- */
+    header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 28px 32px;
+      mix-blend-mode: difference;
+    }
+    .name {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      text-transform: none;
+    }
+    .tag { margin-top: 6px; color: var(--muted); font-size: 13px; }
+    nav { display: flex; gap: 22px; padding-top: 8px; }
+    nav a { opacity: 0.85; transition: opacity .2s; }
+    nav a:hover { opacity: 1; font-style: italic; }
+
+    /* ---------- slideshow ---------- */
+    .hero {
+      position: relative;
+      height: 100vh;
+      height: 100svh;
+      overflow: hidden;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.4s ease;
+    }
+    .slide.on { opacity: 1; }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.06);
+      transition: transform 7s ease-out;
+    }
+    .slide.on img { transform: scale(1); }
+    /* fallback tones while you don't have photos yet */
+    .slide:nth-child(1) { background: linear-gradient(160deg, #2b2a26, #57503f); }
+    .slide:nth-child(2) { background: linear-gradient(200deg, #1d2629, #4a5b57); }
+    .slide:nth-child(3) { background: linear-gradient(140deg, #2e2420, #6b4f3c); }
+    .slide:nth-child(4) { background: linear-gradient(180deg, #1f1f24, #47465a); }
+    .slide:nth-child(5) { background: linear-gradient(120deg, #23271f, #55603f); }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.25), transparent 30%, transparent 70%, rgba(0,0,0,.45));
+      pointer-events: none;
+    }
+    .controls {
+      position: absolute;
+      z-index: 5;
+      bottom: 28px;
+      left: 32px;
+      right: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+    .controls button {
+      background: none;
+      border: 0;
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+      opacity: .8;
+      padding: 6px 0;
+    }
+    .controls button:hover { opacity: 1; font-style: italic; }
+    .count { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+    /* ---------- sections ---------- */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 120px 32px 0;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 40px;
+    }
+    section h2 {
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--muted);
+      padding-top: 10px;
+    }
+    .big {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.15;
+      text-transform: none;
+    }
+    .big em { font-style: italic; color: var(--muted); }
+    .list { border-top: 1px solid var(--line); }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      transition: padding .3s;
+    }
+    a.row:hover { padding-left: 10px; font-style: italic; }
+    .row span:last-child { color: var(--muted); white-space: nowrap; }
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 32px 40px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 700px) {
+      header { padding: 20px 16px; flex-direction: column; gap: 14px; }
+      nav { padding-top: 0; }
+      .controls { left: 16px; right: 16px; }
+      section { grid-template-columns: 1fr; gap: 16px; padding: 90px 16px 0; }
+      footer { padding: 32px 16px 32px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide, .slide img { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <a href="#" class="name">Casey Bohrer</a>
+    </div>
+    <nav>
+      <a href="https://www.linkedin.com/in/casey-bohrer/" target="_blank" rel="noopener">linkedin</a>
+      <a href="https://x.com/caseybohrer_" target="_blank" rel="noopener">x</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </header>
+
+  <!-- ===== PHOTOS: image filenames must match exactly (capitalization matters) ===== -->
+  <div class="hero" id="hero">
+    <div class="slide on"><img src="BVI.jpg" alt="" onerror="this.remove()"></div>
+    <div class="slide"><img src="SantaMonica.jpg" alt="" onerror="this.remove()"></div>
+    <div class="slide"><img src="JoshuaTree.jpg" alt="" onerror="this.remove()"></div>
+    <div class="slide"><img src="LongBoat.jpg" alt="" style="object-position: 50% 70%;" onerror="this.remove()"></div>
+    <div class="slide"><img src="Centennial.jpg" alt="" onerror="this.remove()"></div>
+
+    <div class="controls">
+      <button id="prev">prev</button>
+      <span class="count" id="count">01 / 05</span>
+      <button id="next">next</button>
+    </div>
+  </div>
+
+  <footer id="contact">
+    <a href="mailto:casey@caseybohrer.com">casey@caseybohrer.com</a>
+    <a href="https://www.linkedin.com/in/casey-bohrer/" target="_blank" rel="noopener">linkedin</a>
+    <a href="https://x.com/caseybohrer_" target="_blank" rel="noopener">x</a>
+    <span>© 2026</span>
+  </footer>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const count = document.getElementById('count');
+    let i = 0, timer;
+    const pad = n => String(n).padStart(2, '0');
+    function show(n) {
+      slides[i].classList.remove('on');
+      i = (n + slides.length) % slides.length;
+      slides[i].classList.add('on');
+      count.textContent = pad(i + 1) + ' / ' + pad(slides.length);
+    }
+    function auto() { clearInterval(timer); timer = setInterval(() => show(i + 1), 5500); }
+    document.getElementById('next').onclick = () => { show(i + 1); auto(); };
+    document.getElementById('prev').onclick = () => { show(i - 1); auto(); };
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { show(i + 1); auto(); }
+      if (e.key === 'ArrowLeft')  { show(i - 1); auto(); }
+    });
+    count.textContent = '01 / ' + pad(slides.length);
+    auto();
+  </script>
+</body>
+</html>
